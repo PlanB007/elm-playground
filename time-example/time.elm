@@ -34,12 +34,13 @@ main =
 type alias Model =
   { zone : Time.Zone
   , time : Time.Posix
+  , paused : Bool
   }
 
 
 init : () -> (Model, Cmd Msg)
 init _ =
-  ( Model Time.utc (Time.millisToPosix 0)
+  ( Model Time.utc (Time.millisToPosix 0) False
   , Task.perform AdjustTimeZone Time.here
   )
 
@@ -51,6 +52,7 @@ init _ =
 type Msg
   = Tick Time.Posix
   | AdjustTimeZone Time.Zone
+  | PauseTick Time.Posix
 
 
 
@@ -68,7 +70,9 @@ update msg model =
       )
       
     PauseTick newTime ->
-      (Sub.none)
+      ( { model | time = newTime }
+      , Cmd.none
+      )
 
 
 
@@ -77,7 +81,9 @@ update msg model =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-  Time.every 1000 Tick
+  if model.paused
+  then Sub.none
+  else Time.every 1000 Tick
 
 
 
@@ -91,9 +97,11 @@ view model =
     minute = String.fromInt (Time.toMinute model.zone model.time)
     second = String.fromInt (Time.toSecond model.zone model.time)
   in
-  h1 [] [ text (hour ++ ":" ++ minute ++ ":" ++ second) ]
-  span []
-    [button [ onClick PauseTick ] [text "pause"]]
+  div []
+    [ h1 [] [ text (hour ++ ":" ++ minute ++ ":" ++ second) ]
+    , button [ onClick PauseTick ] [text "pause"]
+    ]
+
   
   
   
