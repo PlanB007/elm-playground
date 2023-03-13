@@ -38,7 +38,7 @@ type alias Model =
   }
 
 
-init : () -> (Model, Cmd Msg)
+init : () -> (Model, Cmd (Time.Posix -> Msg) )
 init _ =
   ( Model Time.utc (Time.millisToPosix 0) False
   , Task.perform AdjustTimeZone Time.here
@@ -56,7 +56,7 @@ type Msg
 
 
 
-update : Msg -> Model -> (Model, Cmd Msg)
+update : (Time.Posix -> Msg) -> Model -> (Model, Cmd (Time.Posix -> Msg) )
 update msg model =
   case msg of
     Tick newTime ->
@@ -79,7 +79,7 @@ update msg model =
 -- SUBSCRIPTIONS
 
 
-subscriptions : Model -> Sub Msg
+subscriptions : Model -> Sub (Time.Posix -> Msg)
 subscriptions model =
   if model.paused
   then Sub.none
@@ -90,7 +90,7 @@ subscriptions model =
 -- VIEW
 
 
-view : Model -> Html Msg
+view : Model -> Html (Time.Posix -> Msg)
 view model =
   let
     hour   = String.fromInt (Time.toHour   model.zone model.time)
