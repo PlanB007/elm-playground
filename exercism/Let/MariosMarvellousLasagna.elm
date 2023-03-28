@@ -1,3 +1,9 @@
 module MariosMarvellousLasagna exposing (remainingTimeInMinutes)
 
--- TODO: define the remainingTimeInMinutes function
+remainingTimeInMinutes layers numberInMinutes =
+    let
+        expectedMinutesInOven = 40
+
+        preparationTimeInMinutes layers = layers * 2 
+    in
+        remainingTimeInMinutes layers ovenTime = preparationTimeInMinutes layers + expectedMinutesInOven
