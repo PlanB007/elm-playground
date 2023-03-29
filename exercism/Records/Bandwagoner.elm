@@ -7,10 +7,10 @@ type alias Coach =
         , formerPlayer : Bool
     }
 -- TODO: please define the 'Stats' record
-Stats : { wins: Int, losses: Int}
+type alias Stats = { wins: Int, losses: Int}
 
 -- TODO: please define the 'Team' record
-Team : { name: String, coach: Coach, stats: Stats}
+type alias Team = { name: String, coach: Coach, stats: Stats}
 
 replaceCoach newCoach team =
     {team | coach = newCoach}
@@ -28,6 +28,6 @@ createTeam name stats coach =
 -- TODO: use an extensible record to accept any record that has a `stats: Stats` field
 -- TODO: use pattern matching in the function parameter to get the `stats` field from the record
 
-rootForTeam : {a | stats : Stats}
+rootForTeam : {a | stats : Stats} -> Bool
 rootForTeam team =
-    Debug.todo "Please implement this function, try to pattern match in the function parameter"
+    team.stats.wins > team.stats.losses
