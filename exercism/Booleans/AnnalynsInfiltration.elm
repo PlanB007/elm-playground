@@ -3,26 +3,16 @@ module AnnalynsInfiltration exposing (canFastAttack, canFreePrisoner, canSignalP
 
 canFastAttack : Bool -> Bool
 canFastAttack knightIsAwake =
-    if knightIsAwake then
-        False
-    else
-        True
-
+    not knightIsAwake 
 
 canSpy : Bool -> Bool -> Bool -> Bool
 canSpy knightIsAwake archerIsAwake prisonerIsAwake =
-    if knightIsAwake || archerIsAwake || prisonerIsAwake then
-        True
-    else
-        False
+    knightIsAwake || archerIsAwake || prisonerIsAwake
 
 
 canSignalPrisoner : Bool -> Bool -> Bool
 canSignalPrisoner archerIsAwake prisonerIsAwake =
-    if not archerIsAwake && prisonerIsAwake then
-        True
-    else
-        False
+   not archerIsAwake && prisonerIsAwake
 
 
 canFreePrisoner : Bool -> Bool -> Bool -> Bool -> Bool
