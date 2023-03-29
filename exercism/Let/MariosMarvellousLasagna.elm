@@ -4,6 +4,6 @@ remainingTimeInMinutes layers numberInMinutes =
     let
         expectedMinutesInOven = 40
 
-        preparationTimeInMinutes layers = layers * 2 
+        preparationTimeInMinutes l = l * 2
     in
-        remainingTimeInMinutes layers ovenTime = preparationTimeInMinutes layers + expectedMinutesInOven
+        preparationTimeInMinutes layers + expectedMinutesInOven - numberInMinutes
