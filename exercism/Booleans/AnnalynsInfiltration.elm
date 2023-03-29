@@ -3,24 +3,38 @@ module AnnalynsInfiltration exposing (canFastAttack, canFreePrisoner, canSignalP
 
 canFastAttack : Bool -> Bool
 canFastAttack knightIsAwake =
-    Debug.todo "Please implement this function"
+    if knightIsAwake then
+        False
+    else
+        True
 
 
 canSpy : Bool -> Bool -> Bool -> Bool
 canSpy knightIsAwake archerIsAwake prisonerIsAwake =
-    Debug.todo "Please implement this function"
+    if knightIsAwake || archerIsAwake || prisonerIsAwake then
+        True
+    else
+        False
 
 
 canSignalPrisoner : Bool -> Bool -> Bool
 canSignalPrisoner archerIsAwake prisonerIsAwake =
-    Debug.todo "Please implement this function"
+    if not archerIsAwake && prisonerIsAwake then
+        True
+    else
+        False
 
 
 canFreePrisoner : Bool -> Bool -> Bool -> Bool -> Bool
 canFreePrisoner knightIsAwake archerIsAwake prisonerIsAwake petDogIsPresent =
-    Debug.todo "Please implement this function"
+    let
+        guardIsAwake = knightIsAwake || archerIsAwake
+        sneakyRescue = prisonerIsAwake && not guardIsAwake
+        dogRescue = not archerIsAwake && petDogIsPresent
+    in
+        sneakyRescue || dogRescue
 
 
 stealthAttackDamage : Bool -> Int
 stealthAttackDamage annalynIsDetected =
-    Debug.todo "Please implement this function"
+    if annalynIsDetected then 7 else 12
