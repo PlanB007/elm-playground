@@ -23,14 +23,13 @@ revive player =
         isDead = player.health == 0
         isDeadAndHighLevel = isDead && player.level >= 10
     in
-        case player of 
-            isDeadAndHighLevel -> 
+            if isDeadAndHighLevel then 
                 {player | health = 100, mana = 100}
 
-            isDead -> 
+            else if isDead then 
                 {player | health = 100, mana = Nothing}
 
-            isAlive -> 
+            else
                 Nothing
         
 
@@ -43,7 +42,11 @@ castSpell manaCost player =
         remainingMana = player.mana - manaCost
         insufficientMana = manaCost > player.mana && player.mana > 0 
     in
-        case player of
-            succesfulSpell -> ({player | mana = remainingMana }, damage)
-            noMana -> ({player | health = player.health - manaCost}, Nothing)
-            insufficientMana -> Nothing
+        if successfulSpell then 
+             ({player | mana = remainingMana }, damage)
+        else if noMana then
+            ({player | health = player.health - manaCost}, 0)
+
+        else
+            (player, 0)
+            
