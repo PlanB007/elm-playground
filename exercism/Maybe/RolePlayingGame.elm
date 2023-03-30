@@ -23,11 +23,15 @@ revive player =
         isDeadAndHighLevel = isDead && player.level >= 10
     in
         case player of 
-            isDeadAndHighLevel -> {player | health = 100, mana = 100}
-            isDead -> {player | health = 100, mana = Nothing}
-            not isDead -> Nothing
-        
+            isDeadAndHighLevel -> 
+                {player | health = 100, mana = 100}
 
+            isDead -> 
+                {player | health = 100, mana = Nothing}
+
+            not isDead -> 
+                Nothing
+        
 
 castSpell : Int -> Player -> ( Player, Int )
 castSpell manaCost player =
