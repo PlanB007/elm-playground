@@ -19,6 +19,7 @@ introduce { name } =
 revive : Player -> Maybe Player
 revive player =
     let
+        isAlive = player.health > 0
         isDead = player.health == 0
         isDeadAndHighLevel = isDead && player.level >= 10
     in
@@ -29,14 +30,14 @@ revive player =
             isDead -> 
                 {player | health = 100, mana = Nothing}
 
-            not isDead -> 
+            isAlive -> 
                 Nothing
         
 
 castSpell : Int -> Player -> ( Player, Int )
 castSpell manaCost player =
     let
-        successfulSpell = manaCost =< player.mana
+        successfulSpell = manaCost <= player.mana
         damage = manaCost * 2
         noMana = player.mana == Nothing || player.mana == 0
         remainingMana = player.mana - manaCost
