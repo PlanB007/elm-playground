@@ -24,29 +24,23 @@ revive player =
         isDeadAndHighLevel = isDead && player.level >= 10
     in
             if isDeadAndHighLevel then 
-                {player | health = 100, mana = 100}
+                Just {player | health = 100, mana = Just 100}
 
             else if isDead then 
-                {player | health = 100, mana = Nothing}
+                Just {player | health = 100, mana = Nothing}
 
-            else
+            else if isAlive then
                 Nothing
+            else 
+                Just player 
         
 
 castSpell : Int -> Player -> ( Player, Int )
 castSpell manaCost player =
-    let
-        successfulSpell = manaCost <= player.mana
-        damage = manaCost * 2
-        noMana = player.mana == Nothing || player.mana == 0
-        remainingMana = player.mana - manaCost
-        insufficientMana = manaCost > player.mana && player.mana > 0 
-    in
-        if successfulSpell then 
-             ({player | mana = remainingMana }, damage)
-        else if noMana then
-            ({player | health = player.health - manaCost}, 0)
-
-        else
-            (player, 0)
-            
+    case player.mana of
+        Nothing -> ({player | health = (max 0 <| player.health - manaCost)}, 0)
+        Just remainingMana -> 
+            if remainingMana >= manaCost then
+                ({player | mana = Just (remainingMana - manaCost)}, manaCost * 2)
+            else
+                (player, 0)
